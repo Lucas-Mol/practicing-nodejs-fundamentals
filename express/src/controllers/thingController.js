@@ -74,6 +74,20 @@ class ThingController {
         }
     }
 
+    static async getThingsByOriginID(req, res) {
+        try {
+            const originID = req.query.origin
+
+            const thingsByOrigin = await thing.find({
+                'origin._id': originID
+            })
+            
+            res.status(200)
+                .json(thingsByOrigin)
+        } catch (error) {
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
+        }
+
     }
 }
 
