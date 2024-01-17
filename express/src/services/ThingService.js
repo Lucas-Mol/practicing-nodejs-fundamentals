@@ -7,8 +7,6 @@ class ThingService {
             const foundOrigin = 
                 await origin.findById(requestBody.origin)
 
-            console.log(foundOrigin._doc);
-
             return ThingUtils.mergeThingAndOrigin(requestBody, foundOrigin._doc)
         }
 

@@ -1,4 +1,5 @@
 import { origin } from "../models/Origin.js"
+import ErrorUtils from "../utils/ErrorUtils.js"
 
 class OriginController {
     
@@ -12,7 +13,7 @@ class OriginController {
                     thing: newOrigin
                 })
         } catch(error) {
-            OriginController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -22,7 +23,7 @@ class OriginController {
             res.status(200)
                 .json(getOrigins)
         } catch(error) {
-            OriginController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -34,7 +35,7 @@ class OriginController {
             res.status(200)
                 .json(foundOrigin)
         } catch(error) {
-            OriginController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -53,7 +54,7 @@ class OriginController {
                     thing: updatedOrigin 
                 })
         } catch(error) {
-            OriginController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -65,13 +66,8 @@ class OriginController {
             res.status(200)
                 .json({message: "Deleted successfully"})        
         } catch (error) {
-            OriginController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
-    }
-
-    static _errorHandler(res, error) {
-        res.status(500)
-            .json({ message: `Error: ${error.message}`})
     }
 }
 

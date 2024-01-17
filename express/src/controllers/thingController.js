@@ -1,5 +1,6 @@
 import thing from "../models/Thing.js"
 import ThingService from "../services/ThingService.js"
+import ErrorUtils from "../utils/ErrorUtils.js"
 
 class ThingController {
     
@@ -16,7 +17,7 @@ class ThingController {
                     thing: createdThing
                 })
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -26,7 +27,7 @@ class ThingController {
             res.status(200)
                 .json(getThings)
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -38,7 +39,7 @@ class ThingController {
             res.status(200)
                 .json(foundThing)
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -57,7 +58,7 @@ class ThingController {
                     thing: updatedThing 
                 })
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
@@ -69,13 +70,10 @@ class ThingController {
             res.status(200)
                 .json({message: "Deleted successfully"})        
         } catch (error) {
-            ThingController._errorHandler(res, error)
+            ErrorUtils.handleErrorToHTTPResponse(res, error)
         }
     }
 
-    static _errorHandler(res, error) {
-        res.status(500)
-            .json({ message: `Error: ${error.message}`})
     }
 }
 
