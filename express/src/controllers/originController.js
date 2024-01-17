@@ -1,52 +1,48 @@
-import thing from "../models/Thing.js"
-import ThingService from "../services/ThingService.js"
+import { origin } from "../models/Origin.js"
 
-class ThingController {
+class OriginController {
     
-    static async createThing(req, res) {
+    static async createOrigin(req, res) {
         try{
-            const newThing = 
-                await ThingService.createNewThingByController(req.body)
-
-            const createdThing = await thing.create(newThing)
+            const newOrigin = await origin.create(req.body)
         
             res.status(201)
                 .json({ 
                     message: "Created successfully",
-                    thing: createdThing
+                    thing: newOrigin
                 })
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            OriginController._errorHandler(res, error)
         }
     }
 
-    static async getThings(req, res) {
+    static async getOrigin(req, res) {
         try{
-            const getThings = await thing.find({})
+            const getOrigins = await origin.find({})
             res.status(200)
-                .json(getThings)
+                .json(getOrigins)
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            OriginController._errorHandler(res, error)
         }
     }
 
-    static async getThingById(req, res) {
+    static async getOriginById(req, res) {
         try{
             const id = req.params.id
-            const foundThing = await thing.findById(id)
+            const foundOrigin = await origin.findById(id)
         
             res.status(200)
-                .json(foundThing)
+                .json(foundOrigin)
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            OriginController._errorHandler(res, error)
         }
     }
 
-    static async updateThing(req, res) {
+    static async updateOrigin(req, res) {
         try {
             const id = req.params.id
             const body = req.body
-            const updatedThing = await thing.findByIdAndUpdate(
+            const updatedOrigin = await origin.findByIdAndUpdate(
                                                 id, 
                                                 body, 
                                                 { new: true})
@@ -54,22 +50,22 @@ class ThingController {
             res.status(200)
                 .json({
                     message: "Updated successfully",
-                    thing: updatedThing 
+                    thing: updatedOrigin 
                 })
         } catch(error) {
-            ThingController._errorHandler(res, error)
+            OriginController._errorHandler(res, error)
         }
     }
 
-    static async deleteThing(req, res) {
+    static async deleteOrigin(req, res) {
         try {
             const id = req.params.id
-            await thing.findByIdAndDelete(id)
+            await origin.findByIdAndDelete(id)
         
             res.status(200)
                 .json({message: "Deleted successfully"})        
         } catch (error) {
-            ThingController._errorHandler(res, error)
+            OriginController._errorHandler(res, error)
         }
     }
 
@@ -79,4 +75,4 @@ class ThingController {
     }
 }
 
-export default ThingController
+export default OriginController
