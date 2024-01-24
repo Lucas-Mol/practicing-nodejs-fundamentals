@@ -1,19 +1,19 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const URL = process.env.DB_CONNECTION_STRING
+const URL = process.env.DB_CONNECTION_STRING;
 
 async function connect() {
-    mongoose.connect(URL)
+  mongoose.connect(URL);
 
-    const connection = mongoose.connection
+  const connection = mongoose.connection;
 
-    connection.on("error", (error) => {
-        console.log("ERROR: " + error);
-    }).once("open", () => {
-        console.log("MongoDB connected successfully");
-    })
+  connection.on("error", (error) => {
+    console.log("ERROR: " + error);
+  }).once("open", () => {
+    console.log("MongoDB connected successfully");
+  });
 
-    return mongoose.connection
+  return mongoose.connection;
 }
 
-export default connect
+export default connect;
