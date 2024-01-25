@@ -23,7 +23,17 @@ class ThingController {
 
   static async getThings(req, res, next) {
     try{
-      const getThings = await thing.find({});
+      let { limit, page = 1 } = req.query;
+
+      limit = parseInt(limit);
+      page = parseInt(page);
+      
+      if(limit < 1 | page < 1) 
+        next(ErrorUtils.InvalidInputDataHTTTPResponse(res));
+
+      const getThings = await thing.find({})
+        .skip((page - 1) * limit)
+        .limit(limit);
 
       if(getThings !== null) {
         res.status(200)
