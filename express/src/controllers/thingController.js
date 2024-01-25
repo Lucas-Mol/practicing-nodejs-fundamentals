@@ -91,13 +91,19 @@ class ThingController {
     }
   }
 
-  static async getThingsByOriginID(req, res, next) {
+  static async getThingsByFilters(req, res, next) {
     try {
-      const originID = req.query.origin;
+      const { name, price, origin, origin_country, origin_year } = req.query;
 
-      const thingsByOrigin = await thing.find({
-        "origin._id": originID
-      });
+      const searchFilters = {};
+
+      if(name) searchFilters.name = new RegExp(name, "i");
+      if(price) searchFilters.price = price;
+      if(origin) searchFilters["origin._id"] =  origin;
+      if(origin_country) searchFilters["origin.country"] = new RegExp(origin_country, "i");
+      if(origin_year) searchFilters["origin.year"] =  origin_year;
+
+      const thingsByOrigin = await thing.find(searchFilters);
       
       if(thingsByOrigin !== null) {
         res.status(200)
