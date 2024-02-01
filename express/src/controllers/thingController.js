@@ -23,23 +23,11 @@ class ThingController {
 
   static async getThings(req, res, next) {
     try{
-      let { limit, page = 1 } = req.query;
+      const getThings = thing.find();
 
-      limit = parseInt(limit);
-      page = parseInt(page);
-      
-      if(limit < 1 | page < 1) 
-        next(ErrorUtils.InvalidInputDataHTTTPResponse(res));
+      req.result = getThings;
 
-      const getThings = await thing.find({})
-        .skip((page - 1) * limit)
-        .limit(limit);
-
-      if(getThings !== null) {
-        res.status(200)
-          .json(getThings);
-      }
-      else ErrorUtils.ResourceNotFoundHTTPResponse(res);
+      next();
 
     } catch(error) {
       next(error);
@@ -103,23 +91,12 @@ class ThingController {
 
   static async getThingsByFilters(req, res, next) {
     try {
-      const { name, price, origin, origin_country, origin_year } = req.query;
-
-      const searchFilters = {};
-
-      if(name) searchFilters.name = new RegExp(name, "i");
-      if(price) searchFilters.price = price;
-      if(origin) searchFilters["origin._id"] =  origin;
-      if(origin_country) searchFilters["origin.country"] = new RegExp(origin_country, "i");
-      if(origin_year) searchFilters["origin.year"] =  origin_year;
-
-      const thingsByOrigin = await thing.find(searchFilters);
+      const searchFilters = ThingService.getFiltersByReq(req);
+      const thingsByOrigin =  thing.find(searchFilters);
       
-      if(thingsByOrigin !== null) {
-        res.status(200)
-          .json(thingsByOrigin);
-      }
-      else ErrorUtils.NotFoundHTTPResponse(res);
+      req.result = thingsByOrigin;
+
+      next();
 
     } catch (error) {
       next(error);

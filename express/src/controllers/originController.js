@@ -19,13 +19,11 @@ class OriginController {
 
   static async getOrigin(req, res, next) {
     try{
-      const getOrigins = await origin.find({});
-      
-      if(getOrigins !== null) {
-        res.status(200)
-          .json(getOrigins);
-      } 
-      else ErrorUtils.ResourceNotFoundHTTPResponse(res);
+      const getOrigins = origin.find({});
+
+      req.result = getOrigins;
+
+      next();
       
     } catch(error) {
       next(error);
