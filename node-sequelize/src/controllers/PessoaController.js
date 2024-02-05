@@ -19,6 +19,17 @@ class PessoaController extends Controller {
             return res.status(500).json({ message: "Internal Error"});
         }
     }
+
+    async getAllPessoas(req, res) {
+        try {
+            const allPessoas = await pessoaServices.getPessoasAllScopes();
+
+            return res.status(200).json(allPessoas);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: "Internal Error"});
+        }
+    }
 }
 
 module.exports = PessoaController;

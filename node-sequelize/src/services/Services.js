@@ -9,6 +9,10 @@ class Services {
         return db[this.model].findAll();
     }
 
+    async getRegistriesByScope(scope) {
+        return db[this.model].scope(scope).findAll();
+    }
+
     async getById(id) {
         return db[this.model].findByPk(id);
     }

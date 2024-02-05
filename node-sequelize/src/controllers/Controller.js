@@ -1,3 +1,5 @@
+const {Sequelize} = require("sequelize");
+
 class Controller {
     constructor(serviceEntity) {
         this.serviceEntity = serviceEntity;
@@ -31,7 +33,12 @@ class Controller {
             return res.status(200).json(newRegistry);
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "Internal Error"});
+            if(error instanceof Sequelize.ValidationError) {
+                const errorMessages = error.message.split(",\n");
+                return res.status(400).json({ message: errorMessages});
+            }
+            else
+                return res.status(500).json({ message: "Internal Error"});
         }
     }
 

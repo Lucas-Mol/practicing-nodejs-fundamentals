@@ -12,6 +12,10 @@ class PessoaServices extends Services {
 
         return matriculas;
     }
+
+    async getPessoasAllScopes() {
+        return await super.getRegistriesByScope("allRegistries");
+    }
 }
 
 module.exports = PessoaServices;
